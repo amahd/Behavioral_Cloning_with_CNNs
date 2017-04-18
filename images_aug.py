@@ -14,7 +14,7 @@ from imgaug import augmenters as iaa
 
 
 # minimum steering value below which to  ignore csv
-LIMIT = 0.1
+LIMIT = 0.0
 
 current_dir = "data/IMG/"
 csv_file = "data/driving_log.csv"
@@ -136,7 +136,7 @@ def get_augmented_row(row):
 
 
 def read_csvfile():
-    
+    csv_lines = []
     # Read CSV file
     with open(csv_file) as csvfile: 
         next(csvfile)               #skip first line
@@ -176,7 +176,7 @@ def read_csvfile():
     # Change the last column to  True, indicating that image be inverted
     # in generator
     for ind,row in enumerate(new_list)        : 
-             row[-1] = True
+            row[-1] = True
 
     # Final list of images to be used
     final_list = temp_list + new_list       
