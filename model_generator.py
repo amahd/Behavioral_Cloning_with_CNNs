@@ -39,17 +39,20 @@ def pre_process(image):
 
 import images_aug as iaug
 
+
+# read the CSV file 
+
 csv_content = iaug.read_csvfile()
 print(np.shape(csv_content))
 
 
 
-
-valid_size= int((0.2* len(csv_content)))
+# Obtain images for validation 
+valid_size= int((0.2* len(csv_content)))   #validation size
 valid_data = []
 
 
-
+# splitting validation data from training data
 for m  in range(valid_size):
     ind = np.random.randint(0,valid_size)
     valid_data.append(csv_content[ind])
@@ -63,13 +66,7 @@ print(np.shape(valid_data))
 #import sys
 #sys.exit()
 
-
-
-#
-#
-#X_train= np.load("Xdata.npy")
-#y_train= np.load("ydata.npy")
-#X_train = X_train /255.0 - 1.0  
+ 
 
 # Making CNN
 
@@ -145,18 +142,16 @@ validation_gen = iaug.get_data_generator(valid_data, batch_size)
 
 
 model.compile(loss='mse', optimizer='adam')
-#model.fit_generator(train_gen, steps_per_epoch=batch_size*5, validation_data=validation_gen, validation_steps=batch_size*1, epochs=3,verbose = 1)
 
-#model.fit(X_train,y_train,validation_split = 0.2, shuffle= True,  epochs = 3)
 
 total_epochs = 5
 
 model.fit_generator(train_gen,
-                    steps_per_epoch=len(csv_content),
+                    steps_per_epoch=2 * len(csv_content),
                     epochs=total_epochs,
                     verbose=1,
-                    validation_data=validation_gen,
-                    validation_steps=len(valid_data))
+                    validation_data= validation_gen,
+                    validation_steps=2*len(valid_data))
 
 #
 #EarlyStopping(monitor='val_loss',

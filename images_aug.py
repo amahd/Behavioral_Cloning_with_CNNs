@@ -2,7 +2,7 @@
 """
 Created on Tue Apr 11 10:36:36 2017
 
-@author: iiss
+@author: aneeq
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,7 +14,7 @@ from imgaug import augmenters as iaa
 
 
 # minimum steering value below which to  ignore csv
-LIMIT = 0.0
+LIMIT = 0.25
 
 current_dir = "data/IMG/"
 csv_file = "data/driving_log.csv"
@@ -148,7 +148,7 @@ def read_csvfile():
     # Get a list of indices to be randomly removed
     drop = []
     for ind,row in enumerate(csv_lines)  :
-        if (  np.abs(float(row[3])) < LIMIT ):     # Get all throttle values below LIMIT
+        if (  np.abs(float(row[3])) < LIMIT ):     # Get all throttle values below LIMIT, which is defined above
             drop.append(ind)
         
     np.random.shuffle(drop)
